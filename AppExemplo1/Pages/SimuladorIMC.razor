@@ -1,0 +1,66 @@
+﻿@page "/imc"
+
+<h3>SimuladorIMC</h3>
+
+<div class="container">
+    <h3><center>Calculadora De Imc</center></h3>
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">NOME:</label>
+        <input @bind="Nome" type="text" class="form-control" id="exampleFormControlInput1">
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">PESO:</label>
+        <input @bind="Peso" type="number" class="form-control" id="exampleFormControlInput1">
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">ALTURA :</label>
+        <input @bind= "Altura" type="number" class="form-control" id="exampleFormControlInput1">
+    </div>
+
+    <button type="button" class="btn btn-primary" @onclick= "CalcularIMC">CALCULAR</button>
+    <button type="button" class="btn btn-warning" @onclick = "Cancelar">CANCELAR</button>
+    <button type="button" class="btn btn-success">SALVAR</button>
+
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">RESULTADO:</label>
+        <input type="number" class="form-control" id="exampleFormControlInput1">
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">CLASSIFICAÇÃO: </label>
+        @Classificacao
+    </div>
+</div>
+
+@code {
+    private string? Nome { get; set; }
+    private double? Peso { get; set; }
+    private double? Altura { get; set; }
+    private string? Classificacao { get; set; }
+    private double? Imc { get; set; }
+
+    public void CalcularIMC()
+    {
+        Imc = Peso / (Altura * Altura);
+
+        if (Imc < 18.5) Classificacao = Nome + ", o seu IMC de " + Imc + " é considerado Abaixo do Normal";
+        if (Imc < 24.9 & Imc > 18.5) Classificacao = Nome + ", o seu IMC de" + Imc + "é considerado Normal";
+        if (Imc > 24.9) Classificacao = Nome + ", o seu IMC de " + Imc + " é considerado SobrePESO!";
+    }
+
+    public void Cancelar()
+    {
+        Nome = "";
+        Peso = 0;
+        Altura = 0;
+        Classificacao = "";
+        Imc = 0;
+    }
+}

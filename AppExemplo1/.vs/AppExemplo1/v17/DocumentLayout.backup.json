@@ -1,0 +1,126 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|c:\\users\\2022202060027\\documents\\lpv2\\appexemplo1\\shared\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|solutionrelative:shared\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|c:\\users\\2022202060027\\documents\\lpv2\\appexemplo1\\pages\\simuladorimc.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|solutionrelative:pages\\simuladorimc.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|c:\\users\\2022202060027\\documents\\lpv2\\appexemplo1\\pages\\somadevalores.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|solutionrelative:pages\\somadevalores.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|c:\\users\\2022202060027\\documents\\lpv2\\appexemplo1\\pessoa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|solutionrelative:pessoa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|c:\\users\\2022202060027\\documents\\lpv2\\appexemplo1\\pages\\fetchdata.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|solutionrelative:pages\\fetchdata.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|c:\\users\\2022202060027\\documents\\lpv2\\appexemplo1\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4CF394F-52CB-4991-B3D0-F1881514DF31}|AppExemplo1.csproj|solutionrelative:pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Pessoa.cs",
+              "DocumentMoniker": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pessoa.cs",
+              "RelativeDocumentMoniker": "Pessoa.cs",
+              "ToolTip": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pessoa.cs*",
+              "RelativeToolTip": "Pessoa.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-26T01:49:06.408Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SimuladorIMC.razor",
+              "DocumentMoniker": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pages\\SimuladorIMC.razor",
+              "RelativeDocumentMoniker": "Pages\\SimuladorIMC.razor",
+              "ToolTip": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pages\\SimuladorIMC.razor*",
+              "RelativeToolTip": "Pages\\SimuladorIMC.razor*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-26T01:42:53.383Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NavMenu.razor",
+              "DocumentMoniker": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Shared\\NavMenu.razor",
+              "RelativeDocumentMoniker": "Shared\\NavMenu.razor",
+              "ToolTip": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Shared\\NavMenu.razor*",
+              "RelativeToolTip": "Shared\\NavMenu.razor*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-26T01:32:49.064Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SomaDeValores.razor",
+              "DocumentMoniker": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pages\\SomaDeValores.razor",
+              "RelativeDocumentMoniker": "Pages\\SomaDeValores.razor",
+              "ToolTip": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pages\\SomaDeValores.razor",
+              "RelativeToolTip": "Pages\\SomaDeValores.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-26T00:34:33.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.razor",
+              "DocumentMoniker": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pages\\Index.razor",
+              "RelativeDocumentMoniker": "Pages\\Index.razor",
+              "ToolTip": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pages\\Index.razor",
+              "RelativeToolTip": "Pages\\Index.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-26T01:29:01.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FetchData.razor",
+              "DocumentMoniker": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pages\\FetchData.razor",
+              "RelativeDocumentMoniker": "Pages\\FetchData.razor",
+              "ToolTip": "C:\\Users\\2022202060027\\Documents\\LPV2\\AppExemplo1\\Pages\\FetchData.razor",
+              "RelativeToolTip": "Pages\\FetchData.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-26T01:28:58.546Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
