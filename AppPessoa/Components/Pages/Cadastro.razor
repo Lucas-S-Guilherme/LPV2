@@ -1,0 +1,80 @@
+@page "/cadastro"
+@rendermode InteractiveServer
+@using AppPessoa.Models;
+@using AppPessoa.Services;
+@inject PessoaService PessoaService;
+@inject NavigationManager navegacao;
+
+<!-- #region  -->
+
+<div class="container">
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">NOME:</label>
+        <input  type="text" class="form-control" id="exampleFormControlInput1" disabled="">
+    </div>
+    <div class="row align-items-start">
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">CPF:</label>
+                <input  type="text" class="form-control" id="exampleFormControlInput2" disabled="">
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">DATA DE NASCIMENTO:</label>
+                <input type="date" class="form-control" id="exampleFormControlInput2" disabled="">
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">TELEFONE:</label>
+                <input  type="tel" class="form-control" id="exampleFormControlInput2" disabled="">
+            </div>
+        </div>
+    </div>
+    
+     <nav class="navbar navbar-light" style="background-color: white"></nav>
+    
+    @if ( == false)
+    {
+        <button type="button" class="btn btn-success" @onclick="Salvar">SALVAR</button>
+        <button type="button" class="btn btn-primary"@onclick="NovoRegistro">CANCELAR</button>
+    }    
+    
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+
+     <nav class="navbar navbar-light" style="background-color: white"></nav>
+    
+    @if ()
+    {
+        <div class="alert alert-success" role="alert">
+             Salvo com Sucesso; 
+       </div>
+        <button type="button" class="btn btn-primary" @onclick="NovoRegistro">NOVO REGISTRO</button>
+    }
+
+</div>
+<h3>Cadastro</h3>
+
+@code {
+    private bool novo = false;
+    private bool campoBloqueado = false;
+    private Pessoa? pessoa = new Pessoa();
+    private static int id = 0;
+    public async Task Salvar()
+    {
+        pessoa.Id = id++;
+        await PessoaService.Add(pessoa);
+        novo = true;
+        campoBloqueado = true;
+    }
+    public void NovoRegistro()
+    {
+        novo = false;
+        navegacao.NavigateTo("/cadastro", forceLoad: true);
+    }
+}
