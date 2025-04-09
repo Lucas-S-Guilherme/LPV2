@@ -1,16 +1,27 @@
-@page "/cadastro"
+@page "/consulta"
 @rendermode InteractiveServer
 @using AppPessoa.Models;
 @using AppPessoa.Services;
-@inject PessoaService PessoaService;
 @inject NavigationManager navegacao;
+@inject PessoaService pessoaService;
 
-<!-- #region  -->
-<h3>Cadastro</h3>
+<h3>Consultas</h3>
 
 <div class="container">
     <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
-
+    <div class="form-group">
+        <label for="input-datalist">Buscar</label>
+        <input type="text" class="form-control" placeholder="Buscar" list="lista-pessoas" @onchange="SelecionarPessoas">
+        <datalist id="lista-pessoas">
+            @foreach (var item in pessoas)
+            {
+                <option value="@item.Cpf">@item.Nome</option>
+            }
+        </datalist>
+    </div>
+     <nav class="navbar navbar-light" style="background-color: white"></nav>
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">NOME:</label>
         <input @bind="pessoa.Nome" type="text" class="form-control" id="exampleFormControlInput1" disabled="@campoBloqueado">
@@ -35,47 +46,32 @@
             </div>
         </div>
     </div>
-    
-     <nav class="navbar navbar-light" style="background-color: white"></nav>
-    
-    @if (campoBloqueado == false)
-    {
-        <button type="button" class="btn btn-success" @onclick="Salvar">SALVAR</button>
-        <button type="button" class="btn btn-primary"@onclick="NovoRegistro">CANCELAR</button>
-    }    
-    
-    <nav class="navbar navbar-light" style="background-color: white"></nav>
-
-    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
-
-     <nav class="navbar navbar-light" style="background-color: white"></nav>
-    
-    @if (novo = true)
-    {
-        <div class="alert alert-success" role="alert">
-             Salvo com Sucesso; 
-       </div>
-        <button type="button" class="btn btn-primary" @onclick="NovoRegistro">NOVO REGISTRO</button>
-    }
+   
 
 </div>
 
 
-@code {
-    private bool novo = false;
-    private bool campoBloqueado = false;
+
+@code
+{
+    private List<Pessoa> pessoas {get; set;}
     private Pessoa? pessoa = new Pessoa();
-    private static int id = 0;
-    public async Task Salvar()
+    private bool campoBloqueado = false;
+
+    //iniciar a página, carregar todas as pessoas
+    protected override async Task OnInitializedAsync()
     {
-        pessoa.Id = id++;
-        await PessoaService.Add(pessoa);
-        novo = true;
-        campoBloqueado = true;
+        pessoas = new List<Pessoa>();
+        var lista = pessoaService?.Pessoas();
+        pessoas = lista.Result.ToList();
     }
-    public void NovoRegistro()
+
+    public void SelecionarPessoas(ChangeEventArgs e)
     {
-        novo = false;
-        navegacao.NavigateTo("/cadastro", forceLoad: true);
+        string cpf = e.Value.ToString();
+        pessoa = pessoas.Where(p => p.Cpf == cpf).FirstOrDefault();
     }
+
+
+
 }
