@@ -1,0 +1,3 @@
+ "ConnectionStrings": {
+    "BaseConexao": "Host=localhost;Pooling=true;Port=5432;Database=BDInventario;User Id=postgres;Password=root;"
+  },
