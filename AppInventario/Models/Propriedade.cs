@@ -15,7 +15,7 @@ namespace AppInventario.Models
         public double? Valor {get; set;}
 
         [Column("id_pessoa")]
-        public int? IdPessoaaa {get; set;}
+        public int? IdPessoa {get; set;}
 
         //informa qual o atributo da classe vai armazenar a FK
         [ForeignKey("IdPessoa")]

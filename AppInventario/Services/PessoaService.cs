@@ -1,3 +1,4 @@
+// PessoaService.cs
 using AppInventario.Contexto;
 using AppInventario.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,39 +11,44 @@ namespace AppInventario.Services
 
         public PessoaService(ContextoBD con)
         {
-            _context = con;
+            _context = con ?? throw new ArgumentNullException(nameof(con));
         }
 
-        public async Task<List<Pessoa>>? Pessoas()
+        public async Task<List<Pessoa>> Pessoas()
         {
-            var pessoas = await _context.Pessoas.Include(p => p.Propriedades).ToListAsync();
-            return pessoas;
+            return await _context.Pessoas
+                .Include(p => p.Propriedades)
+                .ToListAsync() ?? new List<Pessoa>();
         }
 
-        public async Task<Pessoa>? GetPessoa(int id)
+        public async Task<Pessoa?> GetPessoa(int id)
         {
-            var pessoa = await _context.Pessoas.Include(p => p.Propriedades).Where(p => p.Id == id).FirstOrDefaultAsync();
-            return pessoa;
+            return await _context.Pessoas
+                .Include(p => p.Propriedades)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<Pessoa>? GetPessoa(string cpf)
+        public async Task<Pessoa?> GetPessoa(string cpf)
         {
-            var pessoa = await _context.Pessoas.Include(p => p.Propriedades).Where(p => p.Cpf == cpf).FirstOrDefaultAsync();
-            return pessoa;
+            if (string.IsNullOrEmpty(cpf))
+                return null;
+
+            return await _context.Pessoas
+                .Include(p => p.Propriedades)
+                .FirstOrDefaultAsync(p => p.Cpf == cpf);
         }
 
-        public async Task Add (Pessoa pessoa)
+        public async Task Add(Pessoa pessoa)
         {
-            if (pessoa != null)
-            {
-                await _context.Pessoas.AddAsync(pessoa);
-            }
+            if (pessoa == null)
+                throw new ArgumentNullException(nameof(pessoa));
+
+            await _context.Pessoas.AddAsync(pessoa);
         }
 
         public async Task Salvar()
         {
             await _context.SaveChangesAsync();
         }
-
     }
 }

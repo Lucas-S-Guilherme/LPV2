@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppInventario.Models
@@ -9,9 +10,10 @@ namespace AppInventario.Models
         [Column("id")]
         public int Id {get; set;}
         
+        [Required(ErrorMessage = "O nome é obrigatório")]
         [Column("nome")]
         public string? Nome {get; set;}
-
+        
         [Column("cpf")]
         public string? Cpf {get; set;}
 

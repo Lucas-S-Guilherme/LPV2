@@ -1,140 +1,181 @@
 @page "/primeiroCadastro"
-@using AppInventario.Models;
-@using AppInventario.Services;
-@inject PessoaService pessoaService;
-@inject NavigationManager navegacao;
+@rendermode InteractiveServer
+@using AppInventario.Models
+@using AppInventario.Services
+@inject PessoaService pessoaService
+@inject NavigationManager navegacao
 
 <h3>Primeiro Registro de Pessoa com Propriedades</h3>
 
 <div class="container">
     <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
 
-    <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">NOME:</label>
-        <input @bind="pessoa.Nome" type="text" class="form-control" id="exampleFormControlInput1" disabled="@campoBloqueado">
-    </div>
-
-    <div class="row align-items-start">
-        <div class="col">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">CPF:</label>
-                <input @bind="pessoa.Cpf" type="text" class="form-control" id="exampleFormControlInput2" disabled="@campoBloqueado">
-            </div>
-        </div>
-        <div class="col">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">DATA DE NASCIMENTO:</label>
-                <input @bind="pessoa.DataNasc" type="date" class="form-control" id="exampleFormControlInput2" disabled="@campoBloqueado">
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">TELEFONE:</label>
-                <input @bind="pessoa.Telefone" type="tel" class="form-control" id="exampleFormControlInput2" disabled="@campoBloqueado">
-            </div>
-        </div>
-    </div>
-
-     <nav class="navbar navbar-light" style="background-color: white"></nav>
-     
-    @if (novo == false)
+    @if (mensagemErro != null)
     {
-            <button type="button" class="btn btn-success">SALVAR</button>
-            <button type="button" class="btn btn-primary">CANCELAR</button>
-            <button type="button" class="btn btn-warning">ADD BENS</button>
+        <div class="alert alert-danger" role="alert">
+            @mensagemErro
+        </div>
     }
 
+    <EditForm Model="pessoa" OnValidSubmit="Salvar">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <label for="nomeInput" class="form-label">NOME:</label>
+            <InputText @bind-Value="pessoa.Nome" class="form-control" id="nomeInput" disabled="@campoBloqueado" />
+            <ValidationMessage For="@(() => pessoa.Nome)" />
+        </div>
+
+        <div class="row align-items-start">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="cpfInput" class="form-label">CPF:</label>
+                    <InputText @bind-Value="pessoa.Cpf" class="form-control" id="cpfInput" disabled="@campoBloqueado" />
+                    <ValidationMessage For="@(() => pessoa.Cpf)" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="dataNascInput" class="form-label">DATA DE NASCIMENTO:</label>
+                    <InputDate @bind-Value="pessoa.DataNasc" class="form-control" id="dataNascInput" disabled="@campoBloqueado" />
+                    <ValidationMessage For="@(() => pessoa.DataNasc)" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="telefoneInput" class="form-label">TELEFONE:</label>
+                    <InputText @bind-Value="pessoa.Telefone" class="form-control" id="telefoneInput" disabled="@campoBloqueado" />
+                    <ValidationMessage For="@(() => pessoa.Telefone)" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-start">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="descricaoInput" class="form-label">DESCRIÇÃO:</label>
+                    <InputText @bind-Value="Descricao" class="form-control" id="descricaoInput" disabled="@campoBloqueado" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="valorInput" class="form-label">VALOR:</label>
+                    <InputNumber @bind-Value="Valor" class="form-control" id="valorInput" disabled="@campoBloqueado" />
+                </div>
+            </div>
+        </div>
+
+        @if (!campoBloqueado)
+        {
+            <button type="submit" class="btn btn-success">SALVAR</button>
+            <button type="button" class="btn btn-primary" @onclick="NovoRegistro">CANCELAR</button>
+            <button type="button" class="btn btn-warning" @onclick="AddBens">ADD BENS</button>
+        }
+    </EditForm>
 
     <nav class="navbar navbar-light" style="background-color: white"></nav>
 
-    <nav class="navbar navbar-light" style="background-color: darkorange"></nav>
-
-     <nav class="navbar navbar-light" style="background-color: white"></nav>
-    
     @if (novo)
     {
-            <div class="alert alert-success" role="alert">
-                 Salvo com Sucesso; 
-           </div>
-            <button type="button" class="btn btn-primary" @onclick="NovoRegistro">NOVO REGISTRO</button>
+        <div class="alert alert-success" role="alert">
+            Salvo com Sucesso
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="NovoRegistro">NOVO REGISTRO</button>
     }
 
-<div class="row align-items-start">
-    <div class="col">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">DESCRIÇÃO:</label>
-                <input @bind="pessoa.Propriedades" type="text" class="form-control" id="exampleFormControlInput1" disabled="@campoBloqueado">
-            </div>
-        
-    </div>
-    <div class="col">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">VALOR:</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1" disabled="@campoBloqueado">
-            </div>
-    </div>
-</div>
     <nav class="navbar navbar-light" style="background-color: white"></nav>
-    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
- <h4 style="text-align:center">Bens Cadastrados</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Descrição</th>
-                <th>Valor</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in bensRegistrados)
-            {
+    <nav class="navbar navbar-light" style="background-color: darkorange"></nav>
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+
+    <h4 style="text-align:center">Bens Cadastrados</h4>
+    @if (bensRegistrados.Any())
+    {
+        <p><strong>Total dos bens:</strong> R$ @bensRegistrados.Sum(b => b.Valor ?? 0).ToString("N2")</p>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@item.Descricao</td>
-                    <td>@item.Valor</td>
+                    <th>Descrição</th>
+                    <th>Valor</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in bensRegistrados)
+                {
+                    <tr>
+                        <td>@item.Descricao</td>
+                        <td>R$ @item.Valor?.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Nenhum bem cadastrado.</p>
+    }
 
-
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
 </div>
 
 @code {
-    private string? Descricao {get; set;}
-    private double? Valor {get; set;}
+    private string? Descricao { get; set; }
+    private double? Valor { get; set; } 
     private bool novo = false;
     private bool campoBloqueado = false;
-    private Pessoa? pessoa = new Pessoa();
-    private List<Propriedade> bensRegistrados = new List<Propriedade> ();
+    private Pessoa pessoa = new Pessoa();
+    private List<Propriedade> bensRegistrados = new();
+    private string? mensagemErro;
 
     private void AddBens()
     {
-        Propriedade bem = new Propriedade();
-        bem.Descricao = Descricao;
-        bem.Valor = Valor;
-        bensRegistrados.Add(bem);
-        Descricao = null;
-        Valor = null;
-
+        if (!string.IsNullOrEmpty(Descricao) && Valor.HasValue)
+        {
+            Propriedade bem = new Propriedade
+            {
+                Descricao = Descricao,
+                Valor = Valor.Value,
+                IdPessoa = pessoa.Id // Vincula a propriedade à pessoa
+            };
+            bensRegistrados.Add(bem);
+            Descricao = null;
+            Valor = null;
+        }
+        else
+        {
+            mensagemErro = "Preencha a descrição e o valor do bem.";
+        }
     }
 
-    public async Task Salvar ()
+    private async Task Salvar()
     {
-        pessoa.DataNasc = pessoa.DataNasc.Value.ToUniversalTime();
-        pessoa.Propriedades = bensRegistrados;
-        await pessoaService.Add(pessoa);
-        await pessoaService.Salvar();
-        novo = true;
-        campoBloqueado = true;
+        try
+        {
+            mensagemErro = null;
+            if (!bensRegistrados.Any())
+            {
+                mensagemErro = "Adicione pelo menos um bem antes de salvar.";
+                return;
+            }
+
+            pessoa.DataNasc = pessoa.DataNasc?.ToUniversalTime();
+            pessoa.Propriedades = bensRegistrados;
+            await pessoaService.Add(pessoa);
+            await pessoaService.Salvar();
+            novo = true;
+            campoBloqueado = true;
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro ao salvar: {ex.Message}";
+        }
     }
 
-    public void NovoRegistro ()
+    private void NovoRegistro()
     {
         novo = false;
-        //navegacao.NavigateTo("/cadastro");
+        mensagemErro = null;
+        pessoa = new Pessoa();
+        bensRegistrados = new List<Propriedade>();
+        campoBloqueado = false;
         navegacao.NavigateTo("/primeiroCadastro", forceLoad: true);
-
     }
-    
-
 }

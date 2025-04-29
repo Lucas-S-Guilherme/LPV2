@@ -1,3 +1,4 @@
+// PropriedadeService.cs
 using AppInventario.Contexto;
 using AppInventario.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +11,12 @@ namespace AppInventario.Services
 
         public PropriedadeService(ContextoBD con)
         {
-            _context = con;
+            _context = con ?? throw new ArgumentNullException(nameof(con));
         }
 
         public async Task Add(List<Propriedade> bens)
         {
-            if (bens != null)
+            if (bens?.Any() == true)
             {
                 await _context.Propriedades.AddRangeAsync(bens);
             }
@@ -34,13 +35,11 @@ namespace AppInventario.Services
             await _context.SaveChangesAsync();
         }
 
-        //Com Include, o nome do dono da propriedade também será carregado
-
         public async Task<List<Propriedade>> Propriedades()
         {
-            var p = await _context.Propriedades.Include(p => p.Pessoa).ToListAsync();
-            return p;
+            return await _context.Propriedades
+                .Include(p => p.Pessoa)
+                .ToListAsync() ?? new List<Propriedade>();
         }
-
     }
 }

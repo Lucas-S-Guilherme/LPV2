@@ -1,0 +1,66 @@
+@page "/listaPessoas"
+@rendermode InteractiveServer
+@using AppInventario.Models
+@using AppInventario.Services
+@inject PessoaService pessoaService
+
+<h3>Lista de Pessoas e Propriedade de Maior Valor</h3>
+
+<div class="container">
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+
+    @if (mensagemErro != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @mensagemErro
+        </div>
+    }
+
+    @if (pessoas.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Propriedade de Maior Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pessoa in pessoas)
+                {
+                    var propriedadeMaiorValor = pessoa.Propriedades?.OrderByDescending(p => p.Valor).FirstOrDefault();
+                    <tr>
+                        <td>@pessoa.Nome</td>
+                        <td>@pessoa.Cpf</td>
+                        <td>@(propriedadeMaiorValor != null ? $"{propriedadeMaiorValor.Descricao} (R$ {propriedadeMaiorValor.Valor?.ToString("N2")})" : "Nenhuma propriedade")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Nenhuma pessoa cadastrada.</p>
+    }
+
+    <nav class="navbar navbar-light" style="background-color: darkorange"></nav>
+</div>
+
+@code {
+    private List<Pessoa> pessoas = new();
+    private string? mensagemErro;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var pessoasResult = await pessoaService.Pessoas();
+            pessoas = pessoasResult ?? new List<Pessoa>();
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro ao carregar pessoas: {ex.Message}";
+        }
+    }
+}

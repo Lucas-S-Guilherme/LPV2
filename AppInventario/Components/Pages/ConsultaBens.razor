@@ -1,0 +1,164 @@
+@page "/consultaBens"
+@rendermode InteractiveServer
+@using AppInventario.Models
+@using AppInventario.Services
+@inject PessoaService pessoaService
+@inject PropriedadeService propriedadeService
+@inject NavigationManager navegacao
+
+<h3>Consulta de Bens</h3>
+
+<div class="container">
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+
+    @if (mensagemErro != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @mensagemErro
+        </div>
+    }
+
+    <EditForm Model="filtro" OnValidSubmit="FiltrarBens">
+        <DataAnnotationsValidator />
+        <div class="row align-items-start">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="pessoaSelect" class="form-label">SELECIONAR PESSOA:</label>
+                    <select @bind="pessoaSelecionadaId" class="form-control" id="pessoaSelect">
+                        <option value="0">Selecione uma pessoa</option>
+                        @foreach (var pessoa in pessoas)
+                        {
+                            <option value="@pessoa.Id">@pessoa.Nome (@pessoa.Cpf)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="valorMinimoInput" class="form-label">VALOR MÍNIMO:</label>
+                    <InputNumber @bind-Value="filtro.ValorMinimo" class="form-control" id="valorMinimoInput" />
+                    <ValidationMessage For="@(() => filtro.ValorMinimo)" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="descricaoInput" class="form-label">DESCRIÇÃO:</label>
+                    <InputText @bind-Value="filtro.Descricao" class="form-control" id="descricaoInput" />
+                    <ValidationMessage For="@(() => filtro.Descricao)" />
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">FILTRAR</button>
+        <button type="button" class="btn btn-secondary" @onclick="LimparFiltros">LIMPAR FILTROS</button>
+    </EditForm>
+
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+
+    @if (bensFiltrados.Any())
+    {
+        <h4>Bens Cadastrados</h4>
+        <p><strong>Total de todos os bens:</strong> R$ @totalBens.ToString("N2")</p>
+        <p><strong>Total dos bens filtrados:</strong> R$ @totalBensFiltrados.ToString("N2")</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bem in bensFiltrados)
+                {
+                    <tr>
+                        <td>@bem.Descricao</td>
+                        <td>R$ @bem.Valor?.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else if (pessoaSelecionadaId > 0)
+    {
+        <p>Nenhum bem encontrado para os filtros selecionados.</p>
+    }
+
+    <nav class="navbar navbar-light" style="background-color: darkorange"></nav>
+</div>
+
+@code {
+    private List<Pessoa> pessoas = new();
+    private int pessoaSelecionadaId;
+    private List<Propriedade> bens = new();
+    private List<Propriedade> bensFiltrados = new();
+    private double totalBens; // Alterado de decimal para double
+    private double totalBensFiltrados; // Alterado de decimal para double
+    private FiltroBens filtro = new();
+    private string? mensagemErro;
+
+    private class FiltroBens
+    {
+        public double? ValorMinimo { get; set; } // Alterado de decimal? para double?
+        public string? Descricao { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var pessoasResult = await pessoaService.Pessoas();
+            pessoas = pessoasResult ?? new List<Pessoa>();
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro ao carregar pessoas: {ex.Message}";
+        }
+    }
+
+    private async Task FiltrarBens()
+    {
+        mensagemErro = null;
+        bensFiltrados = new List<Propriedade>();
+
+        if (pessoaSelecionadaId <= 0)
+        {
+            mensagemErro = "Selecione uma pessoa.";
+            return;
+        }
+
+        try
+        {
+            var pessoa = await pessoaService.GetPessoa(pessoaSelecionadaId);
+            if (pessoa == null)
+            {
+                mensagemErro = "Pessoa não encontrada.";
+                return;
+            }
+
+            bens = pessoa.Propriedades ?? new List<Propriedade>();
+            totalBens = bens.Sum(b => b.Valor ?? 0);
+
+            bensFiltrados = bens;
+            if (filtro.ValorMinimo.HasValue)
+            {
+                bensFiltrados = bensFiltrados.Where(b => b.Valor >= filtro.ValorMinimo.Value).ToList();
+            }
+            if (!string.IsNullOrEmpty(filtro.Descricao))
+            {
+                bensFiltrados = bensFiltrados.Where(b => b.Descricao != null && b.Descricao.Contains(filtro.Descricao, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            totalBensFiltrados = bensFiltrados.Sum(b => b.Valor ?? 0);
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro ao filtrar bens: {ex.Message}";
+        }
+    }
+
+    private void LimparFiltros()
+    {
+        filtro = new FiltroBens();
+        bensFiltrados = new List<Propriedade>();
+        totalBensFiltrados = 0;
+    }
+}
