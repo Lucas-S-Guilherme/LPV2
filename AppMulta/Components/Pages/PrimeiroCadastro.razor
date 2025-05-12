@@ -1,4 +1,5 @@
 @page "/primeiroCadastro"
+@rendermode InteractiveServer
 @using AppMulta.Models;
 @using AppMulta.Controllers;
 @inject VeiculoController VeiculoController
@@ -75,18 +76,21 @@
 </div>
 
 @code {
-    public List<Multa> listaMultas = new List<Multa>(); //Lista de multas
+    public List<Multa> listaMultas = new List<Multa>(); // Lista de multas
     public Veiculo? veiculo = new Veiculo();
     private bool enabledButton = true;
     private bool campoBloqueado = false;
-    public string? Descricao { get; set;}
-    public decimal? ValorMulta {get; set;}
+    public string? Descricao { get; set; }
+    public decimal? ValorMulta { get; set; }
 
     public void AddMulta()
     {
-        Multa multa = new Multa();
-        multa.Descricao = Descricao;
-        multa.ValorMulta = ValorMulta;
+        Multa multa = new Multa
+        {
+            Descricao = Descricao,
+            ValorMulta = ValorMulta,
+            IdVeiculo = veiculo.Id // Set the foreign key (will be updated after saving vehicle)
+        };
         listaMultas.Add(multa);
         Descricao = null;
         ValorMulta = null;
@@ -94,25 +98,28 @@
 
     private async Task Salvar()
     {
-        // Associa as multas ao veículo
-        veiculo.Multas = listaMultas;
-
-        // Define o IdVeiculo para cada multa
-        foreach (var multa in listaMultas)
+        try
         {
-            multa.IdVeiculo = veiculo.Id; // Certifique-se de que o veículo já tenha um ID, se for um veículo novo, isso será atribuído após salvar o veículo
+            // Associa as multas ao veículo
+            veiculo.Multas = listaMultas;
+
+            // Adiciona o veículo ao banco
+            await VeiculoController.Add(veiculo);
+
+            // Adiciona as multas ao banco
+            await MultaController.AddRanger(listaMultas);
+
+            // Salva tudo em uma única transação
+            await VeiculoController.Salvar(); // This saves both Veiculo and Multa changes
+
+            enabledButton = false;
+            campoBloqueado = true;
         }
-
-        // Adiciona o veículo ao banco
-        await VeiculoController.Add(veiculo);
-        await VeiculoController.Salvar();
-
-        // Adiciona as multas ao banco
-        await MultaController.AddRanger(listaMultas);
-        await MultaController.Salvar();
-
-        enabledButton = false;
-        campoBloqueado = true;
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao salvar: {ex.Message}");
+            // Optionally, display an error message to the user
+        }
     }
 
     public void Cancelar()
@@ -120,11 +127,15 @@
         navegacao.NavigateTo("/primeiroCadastro", forceLoad: true);
     }
 
-    public void NovoRegistro ()
+    public void NovoRegistro()
     {
+        // Reinitialize the state for a new registration
+        veiculo = new Veiculo();
+        listaMultas = new List<Multa>(); // Clear the list to avoid reusing old objects
+        Descricao = null;
+        ValorMulta = null;
+        enabledButton = true;
+        campoBloqueado = false;
         navegacao.NavigateTo("/primeiroCadastro", forceLoad: true);
     }
-
-
-
 }

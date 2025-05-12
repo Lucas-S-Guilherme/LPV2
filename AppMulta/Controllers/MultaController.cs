@@ -25,7 +25,7 @@ namespace AppMulta.Controllers
             await _context.Multas.AddAsync(multa);
         }
 
-        public async Task AddRanger(List<Multa> multas) // adicionar uma lista de multas
+        public async Task AddRanger(List<Multa> multas)
         {
             await _context.Multas.AddRangeAsync(multas);
         }
@@ -34,6 +34,5 @@ namespace AppMulta.Controllers
         {
             await _context.SaveChangesAsync();
         }
-
     }
 }

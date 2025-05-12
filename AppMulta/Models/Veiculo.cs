@@ -5,7 +5,7 @@ namespace AppMulta.Models
     [Table("veiculo")]
     public class Veiculo
     {
-        [Column("id")]
+        [Column("id_vei")]
         public int Id {get; set;}
         [Column("modelo")]
         public string? Modelo {get; set;}
