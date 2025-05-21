@@ -2,6 +2,8 @@ using AppInventario.Components;
 using AppInventario.Services;
 using AppInventario.Contexto;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using AppInventario.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +16,18 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<PessoaService>();
 builder.Services.AddScoped<PropriedadeService>();
 
+// conexão com BD
 string mySqlConexao = builder.Configuration.GetConnectionString("BaseConexaoMySql");
 builder.Services.AddDbContextPool<ContextoBD>(options =>
 options.UseMySql(mySqlConexao, ServerVersion.AutoDetect(mySqlConexao)));
+
+builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+options.UseMySql(mySqlConexao, ServerVersion.AutoDetect(mySqlConexao)));
+
+
+
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
 
